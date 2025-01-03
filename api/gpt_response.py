@@ -2,13 +2,7 @@
 
 import json
 import g4f
-import asyncio
-from asyncio import WindowsSelectorEventLoopPolicy
 import g4f.Provider
-
-############### SET POLICY ##############
-asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())
-##########################################
 
 def handler(request):
     if request.method == 'POST':
