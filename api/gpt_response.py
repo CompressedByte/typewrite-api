@@ -2,7 +2,7 @@
 
 import json
 from flask import Flask, request, jsonify
-from werkzeug.urls import quote
+from urllib.parse import quote
 import g4f
 import g4f.Provider
 
