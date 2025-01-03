@@ -36,7 +36,9 @@ def get_gpt_response():
         print("Error occurred: ", e)
         return jsonify({"error": str(e)}), 500
 
-# Serverless handler to be invoked by Vercel
+
+# The handler function for Vercel, invoked by the platform
 def handler(request):
-    # Invoke Flask to handle the request and return the response from the route
+    # Call the Flask app directly to handle the request
     return app(request)
+
