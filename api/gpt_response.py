@@ -6,7 +6,7 @@ import g4f.Provider
 
 app = Flask(__name__)
 
-@app.route('/get_gpt_response', methods=['POST'])
+@app.route('/api/gpt_response', methods=['POST'])
 def get_gpt_response():
     try:
         # Get the user's input
