@@ -5,11 +5,7 @@ import g4f
 import asyncio
 import json
 import os
-from asyncio import WindowsSelectorEventLoopPolicy
 import g4f.Provider
-
-# Set asyncio event loop policy
-asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())
 
 app = Flask(__name__)
 
