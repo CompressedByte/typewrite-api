@@ -34,7 +34,6 @@ def handler(event, context):
         user_input = body.get('messages')
         player_name = body.get('player_name')
 
-        # Validate input data
         if not user_input or not player_name:
             return {
                 'statusCode': 400,
@@ -52,10 +51,10 @@ def handler(event, context):
             provider=g4f.Provider.Blackbox,
             model="gpt-4",
             messages=player_data["messages"],
-            web_search=False
+            web_search=True
         )
 
-        # Check if the response is a string (assuming that's the expected format)
+        # The response is plain text
         content = response if isinstance(response, str) else "Response not found"
 
         # Save the updated player history
@@ -67,11 +66,6 @@ def handler(event, context):
             'body': json.dumps({"response": content})
         }
 
-    except json.JSONDecodeError:
-        return {
-            'statusCode': 400,
-            'body': json.dumps({"error": "Invalid JSON format"})
-        }
     except Exception as e:
         return {
             'statusCode': 500,
