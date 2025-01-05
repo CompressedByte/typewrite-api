@@ -1,13 +1,9 @@
 #-. .- - ..- .-. . / .. ... / -. --- - / -.-. .-. ..- . .-.. .-.-.#
 
-from flask import Flask, request, jsonify
-import g4f
-import asyncio
 import json
 import os
+import g4f
 import g4f.Provider
-
-app = Flask(__name__)
 
 # Path where player data will be stored
 players_data_path = "players_data"
@@ -30,18 +26,19 @@ def save_player_data(player_name, data):
     with open(player_file, 'w') as f:
         json.dump(data, f, indent=4)
 
-@app.route('/gpt_response', methods=['POST'])
-def gpt_response():
+# Main handler function for the Netlify function
+def handler(event, context):
     try:
-        # Print incoming request data for debugging
-        print("Received request data:", request.json)
-
-        # Get the user's input (player)
-        user_input = request.json.get('messages')
-        player_name = request.json.get('player_name')
+        # Get the request data (POST)
+        body = json.loads(event['body'])
+        user_input = body.get('messages')
+        player_name = body.get('player_name')
 
         if not user_input or not player_name:
-            return jsonify({"error": "Player name or text not provided"}), 400
+            return {
+                'statusCode': 400,
+                'body': json.dumps({"error": "Player name or text not provided"})
+            }
 
         # Load previous player data or create new if not exists
         player_data = load_player_data(player_name)
@@ -57,21 +54,20 @@ def gpt_response():
             web_search=True
         )
 
-        # Print the complete response from the API for debugging
-        print("API Response: ", response)
-
-        # In this case, the response is plain text
+        # The response is plain text
         content = response if isinstance(response, str) else "Response not found"
 
         # Save the updated player history
         player_data["messages"].append({"role": "assistant", "content": content})
         save_player_data(player_name, player_data)
 
-        return jsonify({"response": content})
+        return {
+            'statusCode': 200,
+            'body': json.dumps({"response": content})
+        }
 
     except Exception as e:
-        print("Error occurred: ", e)
-        return jsonify({"error": str(e)}), 500
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+        return {
+            'statusCode': 500,
+            'body': json.dumps({"error": str(e)})
+        }
