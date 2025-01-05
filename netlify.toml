@@ -1,8 +1,7 @@
 [build]
-  functions = "netlify/functions"  # La carpeta donde se encuentran tus funciones
+  functions = "netlify/functions"  # Directorio donde se encuentran las funciones serverless
 
 [[redirects]]
-  from = "/gpt_response"
-  to = "/.netlify/functions/gpt_response"  # Redirige las solicitudes a la función
+  from = "/api/*"
+  to = "/.netlify/functions/gpt_response"
   status = 200
-  force = true

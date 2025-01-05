@@ -6,7 +6,7 @@ import g4f
 import g4f.Provider
 
 # Path where player data will be stored
-players_data_path = "players_data"
+players_data_path = "/tmp/players_data"
 
 # Create the directory if it doesn't exist
 if not os.path.exists(players_data_path):
@@ -51,7 +51,7 @@ def handler(event, context):
             provider=g4f.Provider.Blackbox,
             model="gpt-4",
             messages=player_data["messages"],
-            web_search=True
+            web_search=False
         )
 
         # The response is plain text
