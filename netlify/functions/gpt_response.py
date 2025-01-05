@@ -6,7 +6,7 @@ import g4f
 import g4f.Provider
 
 # Path where player data will be stored
-players_data_path = "/tmp/players_data"
+players_data_path = "players_data"
 
 # Create the directory if it doesn't exist
 if not os.path.exists(players_data_path):
@@ -34,6 +34,7 @@ def handler(event, context):
         user_input = body.get('messages')
         player_name = body.get('player_name')
 
+        # Validate input data
         if not user_input or not player_name:
             return {
                 'statusCode': 400,
@@ -54,7 +55,7 @@ def handler(event, context):
             web_search=False
         )
 
-        # The response is plain text
+        # Check if the response is a string (assuming that's the expected format)
         content = response if isinstance(response, str) else "Response not found"
 
         # Save the updated player history
@@ -66,6 +67,11 @@ def handler(event, context):
             'body': json.dumps({"response": content})
         }
 
+    except json.JSONDecodeError:
+        return {
+            'statusCode': 400,
+            'body': json.dumps({"error": "Invalid JSON format"})
+        }
     except Exception as e:
         return {
             'statusCode': 500,
