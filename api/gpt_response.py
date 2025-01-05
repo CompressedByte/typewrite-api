@@ -30,8 +30,8 @@ def save_player_data(player_name, data):
     with open(player_file, 'w') as f:
         json.dump(data, f, indent=4)
 
-@app.route('/get_gpt_response', methods=['POST'])
-def get_gpt_response():
+@app.route('/gpt_response', methods=['POST'])
+def gpt_response():
     try:
         # Get the user's input (player)
         user_input = request.json.get('messages')
