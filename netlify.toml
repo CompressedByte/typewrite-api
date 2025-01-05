@@ -1,5 +1,5 @@
 [build]
-  functions = "functions"  # Carpeta donde están tus funciones (en tu caso, /functions)
+  functions = "netlify/functions"  # Esta es la carpeta que contiene las funciones
 
 [[redirects]]
   from = "/api/*"
