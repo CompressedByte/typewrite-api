@@ -33,6 +33,9 @@ def save_player_data(player_name, data):
 @app.route('/gpt_response', methods=['POST'])
 def gpt_response():
     try:
+        # Print incoming request data for debugging
+        print("Received request data:", request.json)
+
         # Get the user's input (player)
         user_input = request.json.get('messages')
         player_name = request.json.get('player_name')
@@ -49,7 +52,7 @@ def gpt_response():
         # Make the API call to AI model
         response = g4f.ChatCompletion.create(
             provider=g4f.Provider.Blackbox,
-            model="claude-3.5-sonnet",
+            model="gpt-4",
             messages=player_data["messages"],
             web_search=True
         )
