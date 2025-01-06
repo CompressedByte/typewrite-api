@@ -1,8 +1,0 @@
-[build]
-  functions = "netlify/functions"  # La carpeta donde se encuentran tus funciones
-
-[[redirects]]
-  from = "/gpt_response"
-  to = "/.netlify/functions/gpt_response"  # Redirige las solicitudes a la función
-  status = 200
-  force = true
